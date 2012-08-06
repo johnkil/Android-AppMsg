@@ -7,16 +7,28 @@ Implementation of in-layout notifications. Based on Toast notifications and arti
 Description
 -----------
 
-The Google+ app slides the navigation on top of the UI while the others move the UI to the side. 
-Google+ also has the up caret icon and the action bar present when the menu is opened while other apps don't.
+Toast is far from being perfect and I am not entirely satisfied with it. 
+Toast can be un-accurate in some cases. Indeed, Toast has one major drawback: it completely breaks contexts. 
+This issue can be reproduced effortless. Let’s say a user is currently in an app firing a Toast and wants to switch to another application using the dedicated “multitask” button. 
+The Toast will remain on screen even if the brought-to-front application has nothing do to with the previously shown app as described on the following figure:
+![Example Image][1]
 
-There was a interesting discussion about this pattern in the blog's Google+ page some time ago. 
-You can find the post & discussion here: [Google+](https://plus.google.com/115177579026138386092/posts/AvXiTF7LqDK).
+As you can easily notice, the problem with Toasts is they are persistent. 
+Once a Toast has been fired, it is displayed on top of any screen and remains visible for the duration specified at its creation.
+
+In order to bypass the Toast persistence problem and ensure information is displayed in the correct context, we decided to create a new notification system: 
+Activity-bound notifications. This is what it looks like in the current version of Prixing:
+![Example Image][2]
+
+Crouton overcomes the main issue of having a Toast being shown while the menu is open. 
+It sticks to the current screen sliding with it and leaving the menu completely free of any information that would have not been related to it.
+
+Copyright (C) by [Cyril Mottier](http://android.cyrilmottier.com/?p=773)
 
 Sample
 ------
 
-![Example Image][1]
+![Example Image][3]![Example Image][4]![Example Image][5]
 
 The source code is available in this repository.
 
@@ -38,7 +50,7 @@ Usage
 
 To display the item you need the following code:
 
-* Create AppMsg:
+* Show AppMsg:
 
 ``` java
 AppMsg.makeText(/*Activity*/, /*CharSequence*/, /*AppMsg.Style*/).show();
@@ -65,4 +77,8 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[1]: http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png
+[1]: http://android.cyrilmottier.com/medias/making_of_prixing/4/toast_user_flow_fail.png
+[2]: http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png
+[3]: http://i49.tinypic.com/116umc9.png
+[4]: http://i49.tinypic.com/207kjk4.png
+[5]: http://i49.tinypic.com/2ldbw5s.png
