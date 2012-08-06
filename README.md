@@ -28,7 +28,7 @@ Copyright (C) by [Cyril Mottier](http://android.cyrilmottier.com/?p=773)
 Sample
 ------
 
-![Example Image][3]![Example Image][4]![Example Image][5]
+![Example Image][3]
 
 The source code is available in this repository.
 
@@ -79,6 +79,4 @@ License
 
 [1]: http://android.cyrilmottier.com/medias/making_of_prixing/4/toast_user_flow_fail.png
 [2]: http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png
-[3]: http://i49.tinypic.com/116umc9.png
-[4]: http://i49.tinypic.com/207kjk4.png
-[5]: http://i49.tinypic.com/2ldbw5s.png
+[3]: http://i46.tinypic.com/21kywit.png
