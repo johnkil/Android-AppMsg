@@ -1,0 +1,10 @@
+<resources>
+
+    <string name="app_name">AppMsg Sample</string>
+    
+    <string name="alert">Alert</string>
+    <string name="confirm">Confirm</string>
+    <string name="info">Info</string>
+    <string name="custom">Custom</string>
+
+</resources>
