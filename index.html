@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Android-AppMsg (Crouton) by johnkil</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Android-AppMsg (Crouton)</h1>
+        <h2>In-layout notifications. Based on Toast notifications and article by Cyril Mottier (http://android.cyrilmottier.com/?p=773).</h2>
+        <a href="https://github.com/johnkil/Android-AppMsg" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>Android AppMsg (Crouton) Library</h1>
+
+<p>Implementation of in-layout notifications. Based on <a href="http://developer.android.com/reference/android/widget/Toast.html">Toast</a> notifications and article <a href="http://android.cyrilmottier.com/?p=773">The making of Prixing #4: in-layout notifications</a> by <a href="http://www.cyrilmottier.com/">Cyril Mottier</a>.</p>
+
+<h2>Description</h2>
+
+<p>Toast is far from being perfect and I am not entirely satisfied with it. 
+Toast can be un-accurate in some cases. Indeed, Toast has one major drawback: it completely breaks contexts. 
+This issue can be reproduced effortless. Let’s say a user is currently in an app firing a Toast and wants to switch to another application using the dedicated “multitask” button. 
+The Toast will remain on screen even if the brought-to-front application has nothing do to with the previously shown app as described on the following figure:
+<img src="http://android.cyrilmottier.com/medias/making_of_prixing/4/toast_user_flow_fail.png" alt="Example Image"></p>
+
+<p>As you can easily notice, the problem with Toasts is they are persistent. 
+Once a Toast has been fired, it is displayed on top of any screen and remains visible for the duration specified at its creation.</p>
+
+<p>In order to bypass the Toast persistence problem and ensure information is displayed in the correct context, we decided to create a new notification system: 
+Activity-bound notifications. This is what it looks like in the current version of Prixing:
+<img src="http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png" alt="Example Image"></p>
+
+<p>Crouton overcomes the main issue of having a Toast being shown while the menu is open. 
+It sticks to the current screen sliding with it and leaving the menu completely free of any information that would have not been related to it.</p>
+
+<p><b>Copyright (C) by Cyril Mottier</b></p>
+
+<h2>Sample</h2>
+
+<p><img src="http://i46.tinypic.com/21kywit.png" alt="Example Image"></p>
+
+<p>The source code is available in this repository.</p>
+
+<h2>Compatibility</h2>
+
+<p>This library is compatible from API 4 (Android 1.6).</p>
+
+<h2>Installation</h2>
+
+<p>The sample project requires:</p>
+
+<ul>
+<li>The library project</li>
+<li><a href="https://github.com/JakeWharton/ActionBarSherlock">ActionBarSherlock</a></li>
+</ul><h2>Usage</h2>
+
+<p>To display the item you need the following code:</p>
+
+<ul>
+<li>Show AppMsg:</li>
+</ul><div class="highlight"><pre><span class="n">AppMsg</span><span class="o">.</span><span class="na">makeText</span><span class="o">(</span><span class="cm">/*Activity*/</span><span class="o">,</span> <span class="cm">/*CharSequence*/</span><span class="o">,</span> <span class="cm">/*AppMsg.Style*/</span><span class="o">).</span><span class="na">show</span><span class="o">();</span>
+</pre></div>
+
+<h2>Developed By</h2>
+
+<ul>
+<li>Evgeny Shishkin - <a href="mailto:johnkil78@gmail.com">johnkil78@gmail.com</a>
+</li>
+</ul><h2>License</h2>
+
+<pre><code>Copyright 2012 Evgeny Shishkin
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/johnkil/Android-AppMsg/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/johnkil/Android-AppMsg/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/johnkil/Android-AppMsg"></a> is maintained by <a href="https://github.com/johnkil">johnkil</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
