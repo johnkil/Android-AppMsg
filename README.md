@@ -1,7 +1,7 @@
 Android AppMsg (Crouton) Library
 ==============================
 
-Implementation of in-layout notifications. Based on [Toast](http://developer.android.com/reference/android/widget/Toast.html) notifications and article by [Cyril Mottier](http://android.cyrilmottier.com/?p=773).
+Implementation of in-layout notifications. Based on [Toast](http://developer.android.com/reference/android/widget/Toast.html) notifications and article [The making of Prixing #4: in-layout notifications](http://android.cyrilmottier.com/?p=773) by [Cyril Mottier](http://www.cyrilmottier.com/).
 
 
 Description
@@ -23,7 +23,7 @@ Activity-bound notifications. This is what it looks like in the current version 
 Crouton overcomes the main issue of having a Toast being shown while the menu is open. 
 It sticks to the current screen sliding with it and leaving the menu completely free of any information that would have not been related to it.
 
-Copyright (C) by [Cyril Mottier](http://android.cyrilmottier.com/?p=773)
+<b>Copyright (C) by Cyril Mottier</b>
 
 Sample
 ------
