@@ -1,7 +1,7 @@
 Android AppMsg (Crouton) Library
 ==============================
 
-Implementation of in-layout notifications. Based on Toast notifications and article by [Cyril Mottier](http://android.cyrilmottier.com/?p=773).
+Implementation of in-layout notifications. Based on [Toast](http://developer.android.com/reference/android/widget/Toast.html) notifications and article by [Cyril Mottier](http://android.cyrilmottier.com/?p=773).
 
 
 Description
