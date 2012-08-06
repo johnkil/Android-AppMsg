@@ -1,7 +1,7 @@
-Android SideNavigation Library
+Android AppMsg (Crouton) Library
 ==============================
 
-Implementation of "Side Navigation" or "Fly-in app menu" pattern for Android (based on Google+ app).
+Implementation of in-layout notifications. Based on Toast notifications and article by [Cyril Mottier](http://android.cyrilmottier.com/?p=773).
 
 
 Description
@@ -15,13 +15,6 @@ You can find the post & discussion here: [Google+](https://plus.google.com/11517
 
 Sample
 ------
-
-A sample application is available on Google Play:
-
-<a href="http://play.google.com/store/apps/details?id=com.devspark.sidenavigation.sample">
-  <img alt="Get it on Google Play"
-       src="http://www.android.com/images/brand/get_it_on_play_logo_small.png" />
-</a>
 
 ![Example Image][1]
 
@@ -45,103 +38,10 @@ Usage
 
 To display the item you need the following code:
 
-* Add SideNavigationView to the end of the layout. Example:
-
-``` xml
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <ImageView
-        android:id="@android:id/icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/ic_android_logo" />
-
-    <com.devspark.sidenavigation.SideNavigationView
-        android:id="@+id/side_navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</RelativeLayout>
-```
-
-* Create '.xml' description of the menu for the sideNavigationView. Example:
-
-``` xml
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
-
-    <item
-        android:id="@+id/side_navigation_menu_item1"
-        android:icon="@drawable/ic_android1"
-        android:title="@string/title1"/>
-    <item
-        android:id="@+id/side_navigation_menu_item2"
-        android:icon="@drawable/ic_android2"
-        android:title="@string/title2"/>
-    <item
-        android:id="@+id/side_navigation_menu_item3"
-        android:icon="@drawable/ic_android3"
-        android:title="@string/title3"/>
-    <item
-        android:id="@+id/side_navigation_menu_item4"
-        android:icon="@drawable/ic_android4"
-        android:title="@string/title4"/>
-    <item
-        android:id="@+id/side_navigation_menu_item5"
-        android:icon="@drawable/ic_android5"
-        android:title="@string/title5"/>
-
-</menu>
-```
-
-* Set home should be displayed as an "up" and initialize the sideNavigationView:
+* Create AppMsg:
 
 ``` java
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-	setContentView(R.layout.activity_main);
-    // other code
-    
-    sideNavigationView = (SideNavigationView) findViewById(R.id.side_navigation_view);
-    sideNavigationView.setMenuItems(R.menu.side_navigation_menu);
-	sideNavigationView.setMenuClickCallback(/*ISideNavigationCallback*/);
-        
-    getActionBar().setDisplayHomeAsUpEnabled(true);
-}
-```
-
-* Override onOptionsItemSelected() method for show/hide teh sideNavigationView:
-
-``` java
-@Override
-public boolean onOptionsItemSelected(MenuItem item) {
-	switch (item.getItemId()) {
-	case android.R.id.home:
-		sideNavigationView.toggleMenu();
-		break;
-	default:
-		return super.onOptionsItemSelected(item);
-	}
-	return true;
-}
-```
-
-* Implementation of ISideNavigationCallback:
-
-``` java
-ISideNavigationCallback sideNavigationCallback = new ISideNavigationCallback() {
-    	
-	@Override
-	public void onSideNavigationItemClick(int itemId) {
-		// Validation clicking on side navigation item
-	}
-};
+AppMsg.makeText(/*Activity*/, /*CharSequence*/, /*AppMsg.Style*/).show();
 ```
 
 Developed By
@@ -165,4 +65,4 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[1]: http://i45.tinypic.com/f8jzn.png
+[1]: http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png
