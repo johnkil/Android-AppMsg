@@ -22,7 +22,6 @@ import java.util.Queue;
 import android.os.Handler;
 import android.os.Message;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -143,7 +142,7 @@ class MsgManager extends Handler {
 		if (appMsg.getView().getParent() == null) {
 			appMsg.getActivity().addContentView(
 					appMsg.getView(),
-					new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+					appMsg.getLayoutParams());
 		}
 		appMsg.getView().startAnimation(inAnimation);
 		final Message msg = obtainMessage(MESSAGE_REMOVE);
