@@ -33,4 +33,9 @@
         android:onClick="showAppMsg"
         android:text="@string/custom" />
 
+    <CheckBox
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bottom" />
 </LinearLayout>

@@ -6,5 +6,5 @@
     <string name="confirm">Confirm</string>
     <string name="info">Info</string>
     <string name="custom">Custom</string>
-
+    <string name="bottom">Show at bottom of screen</string>
 </resources>
