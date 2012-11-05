@@ -17,8 +17,10 @@
 package com.devspark.appmsg.sample;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.devspark.appmsg.AppMsg;
@@ -64,7 +66,11 @@ public class MainActivity extends SherlockActivity {
 		}
 
 		// create {@link AppMsg} with specify type
-		AppMsg.makeText(this, msg, style).show();
+		AppMsg appMsg = AppMsg.makeText(this, msg, style);
+		if (((CheckBox)(findViewById(R.id.bottom))).isChecked()) {
+			appMsg.setLayoutGravity(Gravity.BOTTOM);
+		}
+		appMsg.show();
 	}
 
 }

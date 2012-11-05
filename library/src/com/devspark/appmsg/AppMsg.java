@@ -21,6 +21,8 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 /**
@@ -64,6 +66,7 @@ public class AppMsg {
     private final Activity mContext;
     private int mDuration = LENGTH_SHORT;
     private View mView;
+    private LayoutParams mLayoutParams;
 
 	/**
 	 * Construct an empty AppMsg object. You must call {@link #setView} before
@@ -223,7 +226,39 @@ public class AppMsg {
         }
         tv.setText(s);
     }
-	
+
+    /**
+     * Gets the crouton's layout parameters, constructing a default if necessary.
+     * @return the layout parameters
+     */
+    public LayoutParams getLayoutParams() {
+        if (mLayoutParams == null) {
+            mLayoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+        }
+        return mLayoutParams;
+    }
+
+    /**
+     * Sets the layout parameters which will be used to display the crouton.
+     * @param layoutParams The layout parameters to use.
+     * @return <code>this</code>, for chaining.
+     */
+    public AppMsg setLayoutParams(LayoutParams layoutParams) {
+        mLayoutParams = layoutParams;
+        return this;
+    }
+
+    /**
+     * Constructs and sets the layout parameters to have some gravity.
+     * @param gravity the gravity of the Crouton
+     * @return <code>this</code>, for chaining.
+     * @see android.view.Gravity
+     */
+    public AppMsg setLayoutGravity(int gravity) {
+        mLayoutParams = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, gravity);
+        return this;
+    }
+
 	/**
 	 * The style for a {@link AppMsg}.
 	 * @author e.shishkin
