@@ -48,6 +48,10 @@ The sample project requires:
 Usage
 -----
 
+IconicTextView is presented as an [Android library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html).
+It is not a standalone JAR because fonts are stored as a raw resources.  
+You can include this project by [referencing it as a library project](http://developer.android.com/guide/developing/projects/projects-eclipse.html#ReferencingLibraryProject) in Eclipse or ant.
+
 To display the item you need the following code:
 
 * Show AppMsg:
