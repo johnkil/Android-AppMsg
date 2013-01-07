@@ -59,6 +59,15 @@ To display the item you need the following code:
 AppMsg.makeText(/*Activity*/, /*CharSequence*/, /*AppMsg.Style*/).show();
 ```
 
+Contribution
+------------
+
+Please fork [dev](https://github.com/johnkil/Android-AppMsg/tree/dev) repository and contribute back using [pull requests](https://github.com/johnkil/Android-AppMsg/pulls).
+
+Contributors are recommended to follow the Android [Code Style Guidelines](http://source.android.com/source/code-style.html).
+
+Any contributions, large or small, major features, bug fixes, additional language translations, unit/integration tests are welcomed and appreciated but will be thoroughly reviewed and discussed.
+
 Developed By
 ------------
 * Evgeny Shishkin - <johnkil78@gmail.com>
