@@ -109,6 +109,22 @@ public class AppMsg {
 
         return result;
     }
+    /**
+     * Make a {@link AppMsg} that just contains a text view.
+     *
+     * @param context
+     *            The context to use. Usually your
+     *            {@link android.app.Activity} object.
+     * @param text
+     *            The text to show. Can be formatted text.
+     * @param duration
+     *            How long to display the message. Either {@link #LENGTH_SHORT}
+     *            or {@link #LENGTH_LONG}
+     *
+     */
+    public static AppMsg makeText(Activity context, String text, Style style) {
+        return makeText(context,(CharSequence)text,style);
+    }
 
 	/**
 	 * Make a {@link AppMsg} that just contains a text view with the text from a
