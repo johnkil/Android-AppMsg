@@ -28,6 +28,13 @@ It sticks to the current screen sliding with it and leaving the menu completely 
 Sample
 ------
 
+A sample application is available on Google Play:
+
+<a href="http://play.google.com/store/apps/details?id=com.devspark.appmsg.sample">
+  <img alt="Get it on Google Play"
+       src="http://www.android.com/images/brand/get_it_on_play_logo_small.png" />
+</a>
+
 ![Example Image][3]
 
 The source code is available in this repository.
