@@ -96,6 +96,6 @@ License
     See the License for the specific language governing permissions and
     limitations under the License.
 
-[1]: http://android.cyrilmottier.com/medias/making_of_prixing/4/toast_user_flow_fail.png
-[2]: http://android.cyrilmottier.com/medias/making_of_prixing/4/in_layout_notification_large.png
+[1]: http://cyrilmottier.com/media/2012/07/the-making-of-prixing-4-activity-tied-notifications/toast_user_flow_fail.png
+[2]: http://cyrilmottier.com/media/2012/07/the-making-of-prixing-4-activity-tied-notifications/in_layout_notification.png
 [3]: http://i46.tinypic.com/21kywit.png
