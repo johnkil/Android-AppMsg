@@ -124,15 +124,26 @@ class MsgManager extends Handler {
      * @param appMsg The {@link AppMsg} added to a {@link ViewGroup} and should be removed.s
      */
     private void removeMsg(final AppMsg appMsg) {
-        ViewGroup parent = ((ViewGroup) appMsg.getView().getParent());
+        final ViewGroup parent = ((ViewGroup) appMsg.getView().getParent());
         if (parent != null) {
+            outAnimation.setAnimationListener(new Animation.AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {}
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    // Remove the AppMsg from the queue.
+                    msgQueue.poll();
+                    // Remove the AppMsg from the view's parent.
+                    parent.removeView(appMsg.getView());
+                    Message msg = obtainMessage(MESSAGE_DISPLAY);
+                    sendMessage(msg);
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {}
+            });
             appMsg.getView().startAnimation(outAnimation);
-            // Remove the AppMsg from the queue.
-            msgQueue.poll();
-            // Remove the AppMsg from the view's parent.
-            parent.removeView(appMsg.getView());
-            Message msg = obtainMessage(MESSAGE_DISPLAY);
-            sendMessage(msg);
         }
     }
 
