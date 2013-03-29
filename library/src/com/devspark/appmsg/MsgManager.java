@@ -62,6 +62,9 @@ class MsgManager extends Handler {
      */
     void add(AppMsg appMsg) {
         msgQueue.add(appMsg);
+        inAnimation = appMsg.mInAnimation;
+        outAnimation = appMsg.mOutAnimation;
+
         if (inAnimation == null) {
             inAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
                     android.R.anim.fade_in);
