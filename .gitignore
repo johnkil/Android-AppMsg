@@ -21,3 +21,17 @@ library/.classpath
 library/.project
 sample/.classpath
 sample/.project
+
+#IntelliJ IDEA
+.idea
+*.iml
+*.ipr
+*.iws
+classes
+gen-external-apklibs
+atlassian-ide-plugin.xml
+
+#Maven
+target
+release.properties
+pom.xml.*
