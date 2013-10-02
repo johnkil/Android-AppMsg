@@ -35,3 +35,6 @@ atlassian-ide-plugin.xml
 target
 release.properties
 pom.xml.*
+
+#Others
+.directory
