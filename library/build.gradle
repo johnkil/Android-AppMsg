@@ -1,18 +1,8 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
-    }
-}
-
 apply plugin: 'android-library'
 
 android {
-  compileSdkVersion 17
-  buildToolsVersion '17'
+  compileSdkVersion 18
+  buildToolsVersion '17.0.0'
 
   sourceSets {
     main {
@@ -22,3 +12,6 @@ android {
     }
   }
 }
+
+// Used to push in maven
+// apply from: '../maven_push.gradle'
