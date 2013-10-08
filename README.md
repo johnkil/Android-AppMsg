@@ -77,6 +77,11 @@ dependencies {
 }
 ```
 
+Example Gradle project using Android-AppMsg:
+
+* [Android-AppMsg-Gradle-Sample](https://github.com/johnkil/Android-AppMsg-Gradle-Sample)
+
+
 Contribution
 ------------
 
