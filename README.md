@@ -66,6 +66,17 @@ To display the item you need the following code:
 AppMsg.makeText(/*Activity*/, /*CharSequence*/, /*AppMsg.Style*/).show();
 ```
 
+Gradle
+------
+
+Android-AppMsg Library is now pushed to Maven Central as a AAR, so you just need to add the following dependency to your build.gradle.
+
+``` xml
+dependencies {
+	compile 'io.github.johnkil:android-appmsg:1.1'
+}
+```
+
 Contribution
 ------------
 
