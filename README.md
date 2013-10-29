@@ -1,5 +1,5 @@
 Android AppMsg (Crouton) Library
-==============================
+================================
 
 Implementation of in-layout notifications. Based on [Toast](http://developer.android.com/reference/android/widget/Toast.html) notifications and article [The making of Prixing #4: in-layout notifications](http://android.cyrilmottier.com/?p=773) by [Cyril Mottier](http://www.cyrilmottier.com/).
 
@@ -73,7 +73,7 @@ Android-AppMsg Library is now pushed to Maven Central as a AAR, so you just need
 
 ``` xml
 dependencies {
-	compile 'io.github.johnkil:android-appmsg:1.1'
+	compile 'com.github.johnkil.android-appmsg:appmsg:1.1.1'
 }
 ```
 

@@ -2,12 +2,12 @@ apply plugin: 'android'
 
 dependencies {
     compile project(':library')
-    // TODO: we also depend on ActionBarSherlock, which is not in Maven Central as an AAR yet.
+    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
 }
 
 android {
     compileSdkVersion 18
-    buildToolsVersion '17.0.0'
+    buildToolsVersion '18.1.0'
 
     sourceSets {
         main {
