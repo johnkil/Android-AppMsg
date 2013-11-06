@@ -92,6 +92,19 @@ public class AppMsg {
     public static AppMsg makeText(Activity context, CharSequence text, Style style) {
         return makeText(context, text, style, R.layout.app_msg);
     }
+    
+    /**
+     * @author mengguoqiang 扩展支持设置字体大小
+     * Make a {@link AppMsg} that just contains a text view.
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, float textSize) {
+        return makeText(context, text, style, R.layout.app_msg, textSize);
+    }
 
     /**
      * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
@@ -107,6 +120,23 @@ public class AppMsg {
         View v = inflate.inflate(layoutId, null);
 
         return makeText(context, text, style, v, true);
+    }
+    
+    /**
+     * @author mengguoqiang 扩展支持字体大小
+     * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, int layoutId, float textSize) {
+        LayoutInflater inflate = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflate.inflate(layoutId, null);
+
+        return makeText(context, text, style, v, true, textSize);
     }
 
     /**
@@ -136,11 +166,29 @@ public class AppMsg {
      * @param floating true if it'll float.
      */
     private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating) {
+        return makeText(context, text, style, view, floating, 0);
+    }
+    
+    /**
+     * 
+     * @author mengguoqiang 扩展支持设置字体大小
+     * Make a {@link AppMsg} with a custom view. It can be used to create non-floating notifications if floating is false.
+     *
+     * @param context  The context to use. Usually your
+     *                 {@link android.app.Activity} object.
+     * @param view
+     *                 View to be used.
+     * @param text     The text to show. Can be formatted text.
+     * @param style    The style with a background and a duration.
+     * @param floating true if it'll float.
+     */
+    private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating, float textSize) {
         AppMsg result = new AppMsg(context);
 
         view.setBackgroundResource(style.background);
 
         TextView tv = (TextView) view.findViewById(android.R.id.message);
+        if(textSize > 0) tv.setTextSize(textSize);
         tv.setText(text);
 
         result.mView = view;
