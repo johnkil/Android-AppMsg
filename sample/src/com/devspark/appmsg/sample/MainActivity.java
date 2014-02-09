@@ -25,6 +25,9 @@ import android.widget.CheckBox;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.devspark.appmsg.AppMsg;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+
 /**
  * Sample of AppMsg library.
  * 
@@ -73,4 +76,13 @@ public class MainActivity extends SherlockActivity {
         appMsg.show();
     }
 
+  @Override
+  protected void onPause() {
+    super.onPause();
+    // This is optional for 14+,
+    // also you may want to call it at your later convenience, e.g. onDestroy
+    if (SDK_INT < ICE_CREAM_SANDWICH) {
+        AppMsg.cancelAll(this);
+    }
+  }
 }

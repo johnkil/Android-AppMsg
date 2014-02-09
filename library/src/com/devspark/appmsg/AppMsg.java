@@ -64,7 +64,7 @@ public class AppMsg {
      */
     public static final Style STYLE_INFO = new Style(LENGTH_SHORT, R.color.info);
 
-    private final Activity mContext;
+    private final Activity mActivity;
     private int mDuration = LENGTH_SHORT;
     private View mView;
     private LayoutParams mLayoutParams;
@@ -74,11 +74,10 @@ public class AppMsg {
      * Construct an empty AppMsg object. You must call {@link #setView} before
      * you can call {@link #show}.
      *
-     * @param context The context to use. Usually your
-     *                {@link android.app.Activity} object.
+     * @param activity {@link android.app.Activity} to use.
      */
-    public AppMsg(Activity context) {
-        mContext = context;
+    public AppMsg(Activity activity) {
+        mActivity =  activity;
     }
 
     /**
@@ -248,7 +247,7 @@ public class AppMsg {
      * Show the view for the specified duration.
      */
     public void show() {
-        MsgManager manager = MsgManager.getInstance();
+        MsgManager manager = MsgManager.obtain(mActivity);
         manager.add(this);
     }
 
@@ -269,23 +268,32 @@ public class AppMsg {
      * after the appropriate duration.
      */
     public void cancel() {
-        MsgManager.getInstance().clearMsg(this);
+        MsgManager.obtain(mActivity).clearMsg(this);
 
     }
 
     /**
-     * Cancels all queued {@link AppMsg}s. If there is a {@link AppMsg}
+     * Cancels all queued {@link AppMsg}s, in all Activities. If there is a {@link AppMsg}
      * displayed currently, it will be the last one displayed.
      */
     public static void cancelAll() {
-        MsgManager.getInstance().clearAllMsg();
+        MsgManager.clearAll();
+    }
+
+    /**
+     * Cancels all queued {@link AppMsg}s, in given {@link android.app.Activity}.
+     * If there is a {@link AppMsg} displayed currently, it will be the last one displayed.
+     * @param activity
+     */
+    public static void cancelAll(Activity activity) {
+        MsgManager.release(activity);
     }
 
     /**
      * Return the activity.
      */
     public Activity getActivity() {
-        return mContext;
+        return mActivity;
     }
 
     /**
@@ -331,7 +339,7 @@ public class AppMsg {
      * @param resId The new text for the AppMsg.
      */
     public void setText(int resId) {
-        setText(mContext.getText(resId));
+        setText(mActivity.getText(resId));
     }
 
     /**
