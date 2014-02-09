@@ -184,12 +184,6 @@ class MsgManager extends Handler {
         if (parent != null) {
             appMsg.mOutAnimation.setAnimationListener(new OutAnimationListener(appMsg));
             view.startAnimation(appMsg.mOutAnimation);
-            if (appMsg.isFloating()) {
-                // Remove the AppMsg from the view's parent.
-                parent.removeView(view);
-            } else {
-                appMsg.getView().setVisibility(View.INVISIBLE);
-            }
         }
 
         Message msg = obtainMessage(MESSAGE_DISPLAY);
@@ -248,8 +242,19 @@ class MsgManager extends Handler {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            if (!appMsg.isFloating()) {
-                appMsg.getView().setVisibility(View.GONE);
+            final View view = appMsg.getView();
+            if (appMsg.isFloating()) {
+                final ViewGroup parent = ((ViewGroup) view.getParent());
+                if (parent != null) {
+                    parent.post(new Runnable() { // One does not simply removeView
+                        @Override
+                        public void run() {
+                            parent.removeView(view);
+                        }
+                    });
+                }
+            } else {
+                view.setVisibility(View.GONE);
             }
         }
 
