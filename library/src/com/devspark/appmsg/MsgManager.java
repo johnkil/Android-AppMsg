@@ -50,7 +50,6 @@ class MsgManager extends Handler {
     private static ReleaseCallbacks sReleaseCallbacks;
 
     private final Queue<AppMsg> msgQueue;
-    private Animation inAnimation, outAnimation;
 
     private MsgManager() {
         msgQueue = new LinkedList<AppMsg>();
@@ -114,12 +113,12 @@ class MsgManager extends Handler {
      */
     void add(AppMsg appMsg) {
         msgQueue.add(appMsg);
-        if (inAnimation == null) {
-            inAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
+        if (appMsg.mInAnimation == null) {
+            appMsg.mInAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
                     android.R.anim.fade_in);
         }
-        if (outAnimation == null) {
-            outAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
+        if (appMsg.mOutAnimation == null) {
+            appMsg.mOutAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
                     android.R.anim.fade_out);
         }
         displayMsg();
@@ -169,7 +168,7 @@ class MsgManager extends Handler {
         } else {
             msg = obtainMessage(MESSAGE_DISPLAY);
             sendMessageDelayed(msg, appMsg.getDuration()
-                    + inAnimation.getDuration() + outAnimation.getDuration());
+                    + appMsg.mInAnimation.getDuration() + appMsg.mOutAnimation.getDuration());
         }
     }
 
@@ -183,8 +182,8 @@ class MsgManager extends Handler {
         final View view = appMsg.getView();
         ViewGroup parent = ((ViewGroup) view.getParent());
         if (parent != null) {
-            outAnimation.setAnimationListener(new OutAnimationListener(appMsg));
-            view.startAnimation(outAnimation);
+            appMsg.mOutAnimation.setAnimationListener(new OutAnimationListener(appMsg));
+            view.startAnimation(appMsg.mOutAnimation);
             if (appMsg.isFloating()) {
                 // Remove the AppMsg from the view's parent.
                 parent.removeView(view);
@@ -204,7 +203,7 @@ class MsgManager extends Handler {
                     view,
                     appMsg.getLayoutParams());
         }
-        view.startAnimation(inAnimation);
+        view.startAnimation(appMsg.mInAnimation);
         if (view.getVisibility() != View.VISIBLE) {
             view.setVisibility(View.VISIBLE);
         }

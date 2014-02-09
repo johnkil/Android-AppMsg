@@ -50,6 +50,7 @@ public class MainActivity extends SherlockActivity {
     public void showAppMsg(View v) {
         final CharSequence msg = ((Button) v).getText();
         final AppMsg.Style style;
+        boolean customAnimations = false;
         switch (v.getId()) {
             case R.id.alert:
                 style = AppMsg.STYLE_ALERT;
@@ -62,16 +63,20 @@ public class MainActivity extends SherlockActivity {
                 break;
             case R.id.custom:
                 style = new AppMsg.Style(AppMsg.LENGTH_SHORT, R.color.custom);
+                customAnimations = true;
                 break;
 
             default:
                 return;
         }
-
         // create {@link AppMsg} with specify type
         AppMsg appMsg = AppMsg.makeText(this, msg, style);
         if (((CheckBox) (findViewById(R.id.bottom))).isChecked()) {
             appMsg.setLayoutGravity(Gravity.BOTTOM);
+        }
+
+        if (customAnimations) {
+            appMsg.setAnimation(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         }
         appMsg.show();
     }
