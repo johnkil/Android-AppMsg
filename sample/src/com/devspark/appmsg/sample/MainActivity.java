@@ -16,9 +16,13 @@
 
 package com.devspark.appmsg.sample;
 
+import android.animation.LayoutTransition;
+import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -27,8 +31,11 @@ import com.devspark.appmsg.AppMsg;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static android.os.Build.VERSION_CODES.JELLY_BEAN;
 import static android.text.TextUtils.isEmpty;
 import static android.view.Gravity.BOTTOM;
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static com.devspark.appmsg.AppMsg.LENGTH_SHORT;
 import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
 
@@ -46,6 +53,9 @@ public class MainActivity extends SherlockActivity {
     private Spinner mStyle;
     private Spinner mPriority;
     private EditText mProvidedMsg;
+    private CheckBox mBottom;
+    private CheckBox mParent;
+    private ViewGroup mAltParent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,27 @@ public class MainActivity extends SherlockActivity {
         mStyle.setSelection(INFO_POSITION);
         mPriority = (Spinner) findViewById(R.id.priority_spnr);
         mPriority.setSelection(NORMAL_POSITION);
+        mBottom = (CheckBox) findViewById(R.id.bottom);
+        mParent = (CheckBox) findViewById(R.id.parent_chk);
+        mAltParent = (ViewGroup) findViewById(R.id.alt_parent);
+
+        mParent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAltParent.setVisibility(isChecked ? VISIBLE : GONE);
+                mBottom.setVisibility(isChecked ? GONE : VISIBLE);
+            }
+        });
+
+        if (SDK_INT >= JELLY_BEAN) {
+            enableChangingTransition();
+        }
+    }
+
+    @TargetApi(JELLY_BEAN)
+    private void enableChangingTransition() {
+        ViewGroup animatedRoot = (ViewGroup) findViewById(R.id.animated_root);
+        animatedRoot.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
     }
 
     /**
@@ -115,8 +146,12 @@ public class MainActivity extends SherlockActivity {
         // create {@link AppMsg} with specify type
         AppMsg appMsg = provided != null ? provided : AppMsg.makeText(this, msg, style);
         appMsg.setPriority(priority);
-        if (((CheckBox) (findViewById(R.id.bottom))).isChecked()) {
-            appMsg.setLayoutGravity(BOTTOM);
+        if (mParent.isChecked()) {
+            appMsg.setParent(mAltParent);
+        } else {
+            if (mBottom.isChecked()) {
+                appMsg.setLayoutGravity(BOTTOM);
+            }
         }
 
         if (customAnimations) {

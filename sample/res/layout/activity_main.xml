@@ -5,10 +5,12 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/animated_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:padding="48dp">
 
         <TextView
@@ -49,6 +51,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/bottom" />
+
+        <LinearLayout
+            android:id="@+id/alt_parent"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="vertical" />
+
+        <CheckBox
+            android:id="@+id/parent_chk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/custom_parent" />
 
         <EditText
             android:id="@+id/provided_txt"

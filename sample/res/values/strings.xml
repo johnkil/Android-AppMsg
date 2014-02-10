@@ -16,5 +16,6 @@
     <string name="style">Style</string>
     <string name="priority">Priority</string>
     <string name="your_message_here">Your message here</string>
+    <string name="custom_parent">Custom parent</string>
 
 </resources>

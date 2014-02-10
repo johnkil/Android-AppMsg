@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -103,6 +104,7 @@ public class AppMsg {
     private final Activity mActivity;
     private int mDuration = LENGTH_SHORT;
     private View mView;
+    private ViewGroup mParent;
     private LayoutParams mLayoutParams;
     private boolean mFloating;
     Animation mInAnimation, mOutAnimation;
@@ -503,6 +505,35 @@ public class AppMsg {
      */
     public void setPriority(int priority) {
         mPriority = priority;
+    }
+
+    /**
+     * @return
+     * Provided parent to add {@link #getView()} to using {@link #getLayoutParams()}.
+     */
+    public ViewGroup getParent() {
+        return mParent;
+    }
+
+    /**
+     * Provide a different parent than Activity decor view
+     * @param parent
+     * Provided parent to add {@link #getView()} to using {@link #getLayoutParams()}.
+     *
+     */
+    public void setParent(ViewGroup parent) {
+        mParent = parent;
+    }
+
+    /**
+     * Provide a different parent than Activity decor view
+     *
+     * @param parentId
+     * Provided parent id to add {@link #getView()} to using {@link #getLayoutParams()}.
+     *
+     */
+    public void setParent(int parentId) {
+        setParent((ViewGroup) mActivity.findViewById(parentId));
     }
 
     /**

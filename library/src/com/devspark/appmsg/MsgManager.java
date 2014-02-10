@@ -218,10 +218,14 @@ class MsgManager extends Handler implements Comparator<AppMsg> {
 
     private void addMsgToView(AppMsg appMsg) {
         View view = appMsg.getView();
-        if (view.getParent() == null) {
-            appMsg.getActivity().addContentView(
-                    view,
-                    appMsg.getLayoutParams());
+        if (view.getParent() == null) { // Not added yet
+            final ViewGroup targetParent = appMsg.getParent();
+            final ViewGroup.LayoutParams params = appMsg.getLayoutParams();
+            if (targetParent != null) {
+                targetParent.addView(view, params);
+            } else {
+                appMsg.getActivity().addContentView(view, params);
+            }
         }
         view.clearAnimation();
         view.startAnimation(appMsg.mInAnimation);
