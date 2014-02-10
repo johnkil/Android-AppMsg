@@ -29,9 +29,11 @@ import android.view.animation.AnimationUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.WeakHashMap;
 
@@ -43,7 +45,7 @@ import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
 /**
  * @author Evgeny Shishkin
  */
-class MsgManager extends Handler {
+class MsgManager extends Handler implements Comparator<AppMsg> {
 
     private static final int MESSAGE_DISPLAY = 0xc2007;
     private static final int MESSAGE_ADD_VIEW = 0xc20074dd;
@@ -53,10 +55,10 @@ class MsgManager extends Handler {
     private static ReleaseCallbacks sReleaseCallbacks;
 
     private final Queue<AppMsg> msgQueue;
-    private Queue<AppMsg> stickyQueue;
+    private final Queue<AppMsg> stickyQueue;
 
     private MsgManager() {
-        msgQueue = new LinkedList<AppMsg>();
+        msgQueue = new PriorityQueue<AppMsg>(1, this);
         stickyQueue = new LinkedList<AppMsg>();
     }
 
@@ -256,6 +258,15 @@ class MsgManager extends Handler {
                 super.handleMessage(msg);
                 break;
         }
+    }
+
+    @Override
+    public int compare(AppMsg lhs, AppMsg rhs) {
+        return inverseCompareInt(lhs.mPriority, rhs.mPriority);
+    }
+
+    static int inverseCompareInt(int lhs, int rhs) {
+        return lhs < rhs ? 1 : (lhs == rhs ? 0 : -1);
     }
 
     private static class OutAnimationListener implements Animation.AnimationListener {
