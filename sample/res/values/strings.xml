@@ -5,6 +5,9 @@
     <string name="confirm">Confirm</string>
     <string name="info">Info</string>
     <string name="custom">Custom</string>
+    <string name="sticky">Sticky</string>
     <string name="bottom">Show at bottom of screen</string>
+    <string name="remove">Remove</string>
+    <string name="cancel_all">Cancel All</string>
 
 </resources>

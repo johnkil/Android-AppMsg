@@ -52,6 +52,19 @@ public class AppMsg {
     public static final int LENGTH_LONG = 5000;
 
     /**
+     * <p>Show the view or text notification for an undefined amount of time
+     * -Usually until an invocation of {@link #cancel()}, {@link #cancelAll(android.app.Activity)},
+     * {@link #cancelAll()} or {@link android.app.Activity#onDestroy()}-,
+     * stacking on top of any other {@link com.devspark.appmsg.AppMsg} with this duration.</p>
+     *
+     * <p><b>Note</b>: You are responsible
+     * for calling {@link #cancel()} on such {@link com.devspark.appmsg.AppMsg}.</p>
+     *
+     * @see #setDuration
+     */
+    public static final int LENGTH_STICKY = -1;
+
+    /**
      * Show the text notification for a long period of time with a negative style.
      */
     public static final Style STYLE_ALERT = new Style(LENGTH_LONG, R.color.alert);
