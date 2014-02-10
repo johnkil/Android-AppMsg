@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="styles">
+        <item>@string/alert</item>
+        <item>@string/confirm</item>
+        <item>@string/info</item>
+        <item>@string/custom</item>
+        <item>@string/sticky</item>
+    </string-array>
+
+    <string-array name="priorities">
+        <item>@string/high</item>
+        <item>@string/normal</item>
+        <item>@string/low</item>
+    </string-array>
+</resources>
