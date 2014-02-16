@@ -1,9 +1,15 @@
 apply plugin: 'android-library'
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion '18.1.0'
+    compileSdkVersion androidCompileSdk
+    buildToolsVersion androidToolsVersion
 
+    defaultConfig {
+        versionCode appMsgVersionCode
+        versionName appMsgVersionName
+        minSdkVersion 4
+        targetSdkVersion androidCompileSdk
+    }
     sourceSets {
         main {
             manifest.srcFile 'AndroidManifest.xml'
@@ -13,5 +19,7 @@ android {
     }
 }
 
-// Used to push in maven
-apply from: '../maven_push.gradle'
+if (project.hasProperty('nexusUsername')) {
+    // Used to push in maven
+    apply from: '../maven_push.gradle'
+}

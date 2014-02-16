@@ -6,8 +6,15 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 18
-    buildToolsVersion '18.1.0'
+    compileSdkVersion androidCompileSdk
+    buildToolsVersion androidToolsVersion
+
+    defaultConfig {
+        versionCode appMsgVersionCode
+        versionName appMsgVersionName
+        minSdkVersion 7
+        targetSdkVersion androidCompileSdk
+    }
 
     sourceSets {
         main {

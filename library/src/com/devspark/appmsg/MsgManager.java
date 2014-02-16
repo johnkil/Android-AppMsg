@@ -16,15 +16,26 @@
 
 package com.devspark.appmsg;
 
-import java.util.LinkedList;
-import java.util.Queue;
-
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.Application;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+
+import java.lang.ref.WeakReference;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.WeakHashMap;
+
+import static android.app.Application.ActivityLifecycleCallbacks;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
 
 /**
  * @author Evgeny Shishkin
@@ -35,9 +46,10 @@ class MsgManager extends Handler {
     private static final int MESSAGE_ADD_VIEW = 0xc20074dd;
     private static final int MESSAGE_REMOVE = 0xc2007de1;
 
-    private static MsgManager mInstance;
+    private static WeakHashMap<Activity, MsgManager> sManagers;
+    private static ReleaseCallbacks sReleaseCallbacks;
 
-    private Queue<AppMsg> msgQueue;
+    private final Queue<AppMsg> msgQueue;
     private Animation inAnimation, outAnimation;
 
     private MsgManager() {
@@ -45,13 +57,54 @@ class MsgManager extends Handler {
     }
 
     /**
-     * @return The currently used instance of the {@link MsgManager}.
+     * @return A {@link MsgManager} instance to be used for given {@link android.app.Activity}.
      */
-    static synchronized MsgManager getInstance() {
-        if (mInstance == null) {
-            mInstance = new MsgManager();
+    static synchronized MsgManager obtain(Activity activity) {
+        if (sManagers == null) {
+            sManagers = new WeakHashMap<Activity, MsgManager>(1);
         }
-        return mInstance;
+        MsgManager manager = sManagers.get(activity);
+        if (manager == null) {
+            manager = new MsgManager();
+            ensureReleaseOnDestroy(activity);
+            sManagers.put(activity, manager);
+        }
+
+        return manager;
+    }
+
+    static void ensureReleaseOnDestroy(Activity activity) {
+        if (SDK_INT < ICE_CREAM_SANDWICH) {
+            return;
+        }
+        if (sReleaseCallbacks == null) {
+            sReleaseCallbacks = new ReleaseCallbacksIcs();
+        }
+        sReleaseCallbacks.register(activity.getApplication());
+    }
+
+
+    static synchronized void release(Activity activity) {
+        if (sManagers != null) {
+            final MsgManager manager = sManagers.remove(activity);
+            if (manager != null) {
+                manager.clearAllMsg();
+            }
+        }
+    }
+
+    static synchronized void clearAll() {
+        if (sManagers != null) {
+            final Iterator<MsgManager> iterator = sManagers.values().iterator();
+            while (iterator.hasNext()) {
+                final MsgManager manager = iterator.next();
+                if (manager != null) {
+                    manager.clearAllMsg();
+                }
+                iterator.remove();
+            }
+            sManagers.clear();
+        }
     }
 
     /**
@@ -78,7 +131,9 @@ class MsgManager extends Handler {
     void clearMsg(AppMsg appMsg) {
         if(msgQueue.contains(appMsg)){
             // Avoid the message from being removed twice.
-            removeMessages(MESSAGE_REMOVE);
+            removeMessages(MESSAGE_DISPLAY, appMsg);
+            removeMessages(MESSAGE_ADD_VIEW, appMsg);
+            removeMessages(MESSAGE_REMOVE, appMsg);
             msgQueue.remove(appMsg);
             removeMsg(appMsg);
         }
@@ -105,10 +160,6 @@ class MsgManager extends Handler {
         }
         // First peek whether the AppMsg is being displayed.
         final AppMsg appMsg = msgQueue.peek();
-        // If the activity is null we throw away the AppMsg.
-        if (appMsg.getActivity() == null) {
-            msgQueue.poll();
-        }
         final Message msg;
         if (!appMsg.isShowing()) {
             // Display the AppMsg
@@ -128,22 +179,22 @@ class MsgManager extends Handler {
      * @param appMsg The {@link AppMsg} added to a {@link ViewGroup} and should be removed.s
      */
     private void removeMsg(final AppMsg appMsg) {
-        ViewGroup parent = ((ViewGroup) appMsg.getView().getParent());
+        clearMsg(appMsg);
+        final View view = appMsg.getView();
+        ViewGroup parent = ((ViewGroup) view.getParent());
         if (parent != null) {
             outAnimation.setAnimationListener(new OutAnimationListener(appMsg));
-            appMsg.getView().startAnimation(outAnimation);
-            // Remove the AppMsg from the queue.
-            msgQueue.poll();
+            view.startAnimation(outAnimation);
             if (appMsg.isFloating()) {
                 // Remove the AppMsg from the view's parent.
-                parent.removeView(appMsg.getView());
+                parent.removeView(view);
             } else {
                 appMsg.getView().setVisibility(View.INVISIBLE);
             }
-
-            Message msg = obtainMessage(MESSAGE_DISPLAY);
-            sendMessage(msg);
         }
+
+        Message msg = obtainMessage(MESSAGE_DISPLAY);
+        sendMessage(msg);
     }
 
     private void addMsgToView(AppMsg appMsg) {
@@ -185,7 +236,7 @@ class MsgManager extends Handler {
 
     private static class OutAnimationListener implements Animation.AnimationListener {
 
-        private AppMsg appMsg;
+        private final AppMsg appMsg;
 
         private OutAnimationListener(AppMsg appMsg) {
             this.appMsg = appMsg;
@@ -207,5 +258,33 @@ class MsgManager extends Handler {
         public void onAnimationRepeat(Animation animation) {
 
         }
+    }
+
+    interface ReleaseCallbacks {
+        void register(Application application);
+    }
+
+    @TargetApi(ICE_CREAM_SANDWICH)
+    static class ReleaseCallbacksIcs implements ActivityLifecycleCallbacks, ReleaseCallbacks {
+        private WeakReference<Application> mLastApp;
+        public void register(Application app) {
+            if (mLastApp != null && mLastApp.get() == app) {
+                return; // Already registered with this app
+            } else {
+                mLastApp = new WeakReference<Application>(app);
+            }
+            app.registerActivityLifecycleCallbacks(this);
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            release(activity);
+        }
+        @Override public void onActivityCreated(Activity activity, Bundle savedInstanceState) {}
+        @Override public void onActivityStarted(Activity activity) {}
+        @Override public void onActivityResumed(Activity activity) {}
+        @Override public void onActivityPaused(Activity activity) {}
+        @Override public void onActivityStopped(Activity activity) {}
+        @Override public void onActivitySaveInstanceState(Activity activity, Bundle outState) {}
     }
 }
