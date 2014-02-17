@@ -73,7 +73,7 @@ Android-AppMsg Library is now pushed to Maven Central as a AAR, so you just need
 
 ``` xml
 dependencies {
-	compile 'com.github.johnkil.android-appmsg:appmsg:1.1.1'
+	compile 'com.github.johnkil.android-appmsg:appmsg:1.2.0'
 }
 ```
 
