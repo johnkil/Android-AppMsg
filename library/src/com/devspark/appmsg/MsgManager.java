@@ -28,6 +28,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import java.lang.ref.WeakReference;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -36,6 +38,7 @@ import java.util.WeakHashMap;
 import static android.app.Application.ActivityLifecycleCallbacks;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH;
+import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
 
 /**
  * @author Evgeny Shishkin
@@ -50,10 +53,11 @@ class MsgManager extends Handler {
     private static ReleaseCallbacks sReleaseCallbacks;
 
     private final Queue<AppMsg> msgQueue;
-    private Animation inAnimation, outAnimation;
+    private Queue<AppMsg> stickyQueue;
 
     private MsgManager() {
         msgQueue = new LinkedList<AppMsg>();
+        stickyQueue = new LinkedList<AppMsg>();
     }
 
     /**
@@ -114,12 +118,12 @@ class MsgManager extends Handler {
      */
     void add(AppMsg appMsg) {
         msgQueue.add(appMsg);
-        if (inAnimation == null) {
-            inAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
+        if (appMsg.mInAnimation == null) {
+            appMsg.mInAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
                     android.R.anim.fade_in);
         }
-        if (outAnimation == null) {
-            outAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
+        if (appMsg.mOutAnimation == null) {
+            appMsg.mOutAnimation = AnimationUtils.loadAnimation(appMsg.getActivity(),
                     android.R.anim.fade_out);
         }
         displayMsg();
@@ -129,12 +133,13 @@ class MsgManager extends Handler {
      * Removes all {@link AppMsg} from the queue.
      */
     void clearMsg(AppMsg appMsg) {
-        if(msgQueue.contains(appMsg)){
+        if(msgQueue.contains(appMsg) || stickyQueue.contains(appMsg)){
             // Avoid the message from being removed twice.
             removeMessages(MESSAGE_DISPLAY, appMsg);
             removeMessages(MESSAGE_ADD_VIEW, appMsg);
             removeMessages(MESSAGE_REMOVE, appMsg);
             msgQueue.remove(appMsg);
+            stickyQueue.remove(appMsg);
             removeMsg(appMsg);
         }
     }
@@ -143,12 +148,29 @@ class MsgManager extends Handler {
      * Removes all {@link AppMsg} from the queue.
      */
     void clearAllMsg() {
-        if (msgQueue != null) {
-            msgQueue.clear();
-        }
         removeMessages(MESSAGE_DISPLAY);
         removeMessages(MESSAGE_ADD_VIEW);
         removeMessages(MESSAGE_REMOVE);
+        clearShowing();
+        msgQueue.clear();
+        stickyQueue.clear();
+    }
+
+    void clearShowing() {
+        final Collection<AppMsg> showing = new HashSet<AppMsg>();
+        obtainShowing(msgQueue, showing);
+        obtainShowing(stickyQueue, showing);
+        for (AppMsg msg : showing) {
+            clearMsg(msg);
+        }
+    }
+
+    static void obtainShowing(Collection<AppMsg> from, Collection<AppMsg> appendTo) {
+        for (AppMsg msg : from) {
+            if (msg.isShowing()) {
+                appendTo.add(msg);
+            }
+        }
     }
 
     /**
@@ -166,10 +188,10 @@ class MsgManager extends Handler {
             msg = obtainMessage(MESSAGE_ADD_VIEW);
             msg.obj = appMsg;
             sendMessage(msg);
-        } else {
+        } else if (appMsg.getDuration() != LENGTH_STICKY) {
             msg = obtainMessage(MESSAGE_DISPLAY);
             sendMessageDelayed(msg, appMsg.getDuration()
-                    + inAnimation.getDuration() + outAnimation.getDuration());
+                    + appMsg.mInAnimation.getDuration() + appMsg.mOutAnimation.getDuration());
         }
     }
 
@@ -183,14 +205,9 @@ class MsgManager extends Handler {
         final View view = appMsg.getView();
         ViewGroup parent = ((ViewGroup) view.getParent());
         if (parent != null) {
-            outAnimation.setAnimationListener(new OutAnimationListener(appMsg));
-            view.startAnimation(outAnimation);
-            if (appMsg.isFloating()) {
-                // Remove the AppMsg from the view's parent.
-                parent.removeView(view);
-            } else {
-                appMsg.getView().setVisibility(View.INVISIBLE);
-            }
+            appMsg.mOutAnimation.setAnimationListener(new OutAnimationListener(appMsg));
+            view.clearAnimation();
+            view.startAnimation(appMsg.mOutAnimation);
         }
 
         Message msg = obtainMessage(MESSAGE_DISPLAY);
@@ -204,13 +221,20 @@ class MsgManager extends Handler {
                     view,
                     appMsg.getLayoutParams());
         }
-        view.startAnimation(inAnimation);
+        view.clearAnimation();
+        view.startAnimation(appMsg.mInAnimation);
         if (view.getVisibility() != View.VISIBLE) {
             view.setVisibility(View.VISIBLE);
         }
-        final Message msg = obtainMessage(MESSAGE_REMOVE);
-        msg.obj = appMsg;
-        sendMessageDelayed(msg, appMsg.getDuration());
+
+        final int duration = appMsg.getDuration();
+        if (duration != LENGTH_STICKY) {
+            final Message msg = obtainMessage(MESSAGE_REMOVE);
+            msg.obj = appMsg;
+            sendMessageDelayed(msg, duration);
+        } else { // We are sticky, we don't get removed just yet
+            stickyQueue.add(msgQueue.poll());
+        }
     }
 
     @Override
@@ -249,8 +273,19 @@ class MsgManager extends Handler {
 
         @Override
         public void onAnimationEnd(Animation animation) {
-            if (!appMsg.isFloating()) {
-                appMsg.getView().setVisibility(View.GONE);
+            final View view = appMsg.getView();
+            if (appMsg.isFloating()) {
+                final ViewGroup parent = ((ViewGroup) view.getParent());
+                if (parent != null) {
+                    parent.post(new Runnable() { // One does not simply removeView
+                        @Override
+                        public void run() {
+                            parent.removeView(view);
+                        }
+                    });
+                }
+            } else {
+                view.setVisibility(View.GONE);
             }
         }
 

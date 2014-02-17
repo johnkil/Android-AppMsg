@@ -22,6 +22,8 @@ import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -50,6 +52,19 @@ public class AppMsg {
     public static final int LENGTH_LONG = 5000;
 
     /**
+     * <p>Show the view or text notification for an undefined amount of time
+     * -Usually until an invocation of {@link #cancel()}, {@link #cancelAll(android.app.Activity)},
+     * {@link #cancelAll()} or {@link android.app.Activity#onDestroy()}-,
+     * stacking on top of any other {@link com.devspark.appmsg.AppMsg} with this duration.</p>
+     *
+     * <p><b>Note</b>: You are responsible
+     * for calling {@link #cancel()} on such {@link com.devspark.appmsg.AppMsg}.</p>
+     *
+     * @see #setDuration
+     */
+    public static final int LENGTH_STICKY = -1;
+
+    /**
      * Show the text notification for a long period of time with a negative style.
      */
     public static final Style STYLE_ALERT = new Style(LENGTH_LONG, R.color.alert);
@@ -69,6 +84,7 @@ public class AppMsg {
     private View mView;
     private LayoutParams mLayoutParams;
     private boolean mFloating;
+    Animation mInAnimation, mOutAnimation;
 
     /**
      * Construct an empty AppMsg object. You must call {@link #setView} before
@@ -409,6 +425,27 @@ public class AppMsg {
      */
     public void setFloating(boolean mFloating) {
         this.mFloating = mFloating;
+    }
+
+    /**
+     * Sets the Animations to be used when displaying/removing the Crouton.
+     * @param inAnimation the Animation resource ID to be used when displaying.
+     * @param outAnimation the Animation resource ID to be used when removing.
+     */
+    public AppMsg setAnimation(int inAnimation, int outAnimation) {
+        return setAnimation(AnimationUtils.loadAnimation(mActivity, inAnimation),
+                AnimationUtils.loadAnimation(mActivity, outAnimation));
+    }
+
+    /**
+     * Sets the Animations to be used when displaying/removing the Crouton.
+     * @param inAnimation the Animation to be used when displaying.
+     * @param outAnimation the Animation to be used when removing.
+     */
+    public AppMsg setAnimation(Animation inAnimation, Animation outAnimation) {
+        mInAnimation = inAnimation;
+        mOutAnimation = outAnimation;
+        return this;
     }
 
     /**

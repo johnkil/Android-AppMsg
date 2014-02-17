@@ -1,42 +1,63 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical" >
+    android:fillViewport="true">
 
-    <Button
-        android:id="@+id/alert"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showAppMsg"
-        android:text="@string/alert" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="48dp">
 
-    <Button
-        android:id="@+id/confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showAppMsg"
-        android:text="@string/confirm" />
+        <Button
+            android:id="@+id/alert"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/alert" />
 
-    <Button
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showAppMsg"
-        android:text="@string/info" />
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/confirm" />
 
-    <Button
-        android:id="@+id/custom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="showAppMsg"
-        android:text="@string/custom" />
+        <Button
+            android:id="@+id/info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/info" />
 
-    <CheckBox
-        android:id="@+id/bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/bottom" />
+        <Button
+            android:id="@+id/custom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/custom" />
 
-</LinearLayout>
+        <Button
+            android:id="@+id/sticky"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/sticky" />
+
+        <CheckBox
+            android:id="@+id/bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bottom" />
+
+        <Button
+            android:id="@+id/cancel_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="showAppMsg"
+            android:text="@string/cancel_all" />
+
+    </LinearLayout>
+</ScrollView>
