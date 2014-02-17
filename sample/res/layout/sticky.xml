@@ -1,32 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:minHeight="48dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp">
 
     <ImageButton
-        android:id="@+id/remove_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center|right"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        android:src="@drawable/ic_action_cancel_inset"
-        style="@style/SelectableItem"
-        />
+            android:id="@+id/remove_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:minWidth="48dp"
+            android:minHeight="48dp"
+            android:src="@drawable/ic_action_cancel_inset"
+            style="@style/SelectableItem"/>
 
 
     <TextView
-        android:id="@android:id/message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:padding="8dp"
-        android:textColor="#ff222222"
-        android:textIsSelectable="false"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+            android:id="@android:id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/remove_btn"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:padding="8dp"
+            android:textColor="#ff222222"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
 
-</FrameLayout>
+</RelativeLayout>
