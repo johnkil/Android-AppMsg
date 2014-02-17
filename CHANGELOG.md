@@ -2,6 +2,16 @@ Change Log
 ==========
 
 
+Version 1.2.0 *(2014-02-17)*
+----------------------------
+
+ * Added support for custom Animations.
+ * Added support for displaying Sticky notifications closed manually.
+ * Allow to provide a custom parent.
+ * Allow to provide a priority, so some urgent AppMsgs can jump to the front of the queue.
+ * Fix: Activity leaking.
+
+
 Version 1.1.1 *(2013-10-29)*
 ----------------------------
 
