@@ -5,46 +5,46 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/animated_root"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
+        android:animateLayoutChanges="true"
         android:padding="48dp">
 
-        <Button
-            android:id="@+id/alert"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textAllCaps="true"
+            android:text="@string/style"
+            />
+        <Spinner
+            android:id="@+id/style_spnr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
-            android:text="@string/alert" />
-
-        <Button
-            android:id="@+id/confirm"
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            android:entries="@array/styles"
+            android:prompt="@string/style"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textAllCaps="true"
+            android:text="@string/priority"
+            />
+        <Spinner
+            android:id="@+id/priority_spnr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
-            android:text="@string/confirm" />
-
-        <Button
-            android:id="@+id/info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
-            android:text="@string/info" />
-
-        <Button
-            android:id="@+id/custom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
-            android:text="@string/custom" />
-
-        <Button
-            android:id="@+id/sticky"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
-            android:text="@string/sticky" />
+            android:minHeight="48dp"
+            android:spinnerMode="dropdown"
+            android:entries="@array/priorities"
+            android:prompt="@string/priority"
+            />
 
         <CheckBox
             android:id="@+id/bottom"
@@ -52,11 +52,39 @@
             android:layout_height="wrap_content"
             android:text="@string/bottom" />
 
+        <LinearLayout
+            android:id="@+id/alt_parent"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:orientation="vertical" />
+
+        <CheckBox
+            android:id="@+id/parent_chk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/custom_parent" />
+
+        <EditText
+            android:id="@+id/provided_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/your_message_here"
+            />
+
+        <Button
+            android:id="@+id/show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="buttonClick"
+            android:text="@string/show_appmsg" />
+
         <Button
             android:id="@+id/cancel_all"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="showAppMsg"
+            android:onClick="buttonClick"
             android:text="@string/cancel_all" />
 
     </LinearLayout>

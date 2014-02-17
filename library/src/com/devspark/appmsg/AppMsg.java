@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -65,6 +66,27 @@ public class AppMsg {
     public static final int LENGTH_STICKY = -1;
 
     /**
+     * Lowest priority, messages with this priority will be showed after all messages with priority
+     * {@link #PRIORITY_HIGH} and {@link #PRIORITY_NORMAL} have been shown.
+     *
+     * @see #setPriority(int)
+     */
+    public static final int PRIORITY_LOW = Integer.MIN_VALUE;
+    /**
+     * Normal priority, messages with this priority will be showed after all messages with priority
+     * {@link #PRIORITY_HIGH} but before {@link #PRIORITY_LOW} have been shown.
+     *
+     * @see #setPriority(int)
+     */
+    public static final int PRIORITY_NORMAL = 0;
+    /**
+     * Highest priority, messages with this priority will be showed before any other message.
+     *
+     * @see #setPriority(int)
+     */
+    public static final int PRIORITY_HIGH = Integer.MAX_VALUE;
+
+    /**
      * Show the text notification for a long period of time with a negative style.
      */
     public static final Style STYLE_ALERT = new Style(LENGTH_LONG, R.color.alert);
@@ -82,9 +104,11 @@ public class AppMsg {
     private final Activity mActivity;
     private int mDuration = LENGTH_SHORT;
     private View mView;
+    private ViewGroup mParent;
     private LayoutParams mLayoutParams;
     private boolean mFloating;
     Animation mInAnimation, mOutAnimation;
+    int mPriority = PRIORITY_NORMAL;
 
     /**
      * Construct an empty AppMsg object. You must call {@link #setView} before
@@ -446,6 +470,70 @@ public class AppMsg {
         mInAnimation = inAnimation;
         mOutAnimation = outAnimation;
         return this;
+    }
+
+    /**
+     * @return
+     * Current priority
+     *
+     * @see #PRIORITY_HIGH
+     * @see #PRIORITY_NORMAL
+     * @see #PRIORITY_LOW
+     */
+    public int getPriority() {
+        return mPriority;
+    }
+
+    /**
+     * <p>Set priority for this message</p>
+     * <p><b>Note</b>: This only affects the order in which the messages get shown,
+     * not the stacking order of the views.</p>
+     *
+     * <p>Example: In the queue there are 3 messages [A, B, C],
+     * all of them with priority {@link #PRIORITY_NORMAL}, currently message A is being shown
+     * so we add a new message D with priority {@link #PRIORITY_HIGH}, after A goes away, given that
+     * D has a higher priority than B an the reset, D will be shown, then once that D is gone,
+     * B will be shown, and then finally C.</p>
+     *
+     * @param priority
+     * A value indicating priority, although you can use any integer value, usage of already
+     * defined is highly encouraged.
+     *
+     * @see #PRIORITY_HIGH
+     * @see #PRIORITY_NORMAL
+     * @see #PRIORITY_LOW
+     */
+    public void setPriority(int priority) {
+        mPriority = priority;
+    }
+
+    /**
+     * @return
+     * Provided parent to add {@link #getView()} to using {@link #getLayoutParams()}.
+     */
+    public ViewGroup getParent() {
+        return mParent;
+    }
+
+    /**
+     * Provide a different parent than Activity decor view
+     * @param parent
+     * Provided parent to add {@link #getView()} to using {@link #getLayoutParams()}.
+     *
+     */
+    public void setParent(ViewGroup parent) {
+        mParent = parent;
+    }
+
+    /**
+     * Provide a different parent than Activity decor view
+     *
+     * @param parentId
+     * Provided parent id to add {@link #getView()} to using {@link #getLayoutParams()}.
+     *
+     */
+    public void setParent(int parentId) {
+        setParent((ViewGroup) mActivity.findViewById(parentId));
     }
 
     /**

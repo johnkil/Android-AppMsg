@@ -9,5 +9,13 @@
     <string name="bottom">Show at bottom of screen</string>
     <string name="remove">Remove</string>
     <string name="cancel_all">Cancel All</string>
+    <string name="high">High</string>
+    <string name="normal">Normal</string>
+    <string name="low">Low</string>
+    <string name="show_appmsg">Show AppMsg!</string>
+    <string name="style">Style</string>
+    <string name="priority">Priority</string>
+    <string name="your_message_here">Your message here</string>
+    <string name="custom_parent">Custom parent</string>
 
 </resources>
