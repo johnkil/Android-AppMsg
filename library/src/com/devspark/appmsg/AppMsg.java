@@ -19,7 +19,6 @@ package com.devspark.appmsg;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.style.ClickableSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -66,9 +65,6 @@ public class AppMsg {
      * @see #setDuration
      */
     public static final int LENGTH_STICKY = -1;
-    
-    
-    public static final int LENGTH_STAY = 15000;
 
     /**
      * Lowest priority, messages with this priority will be showed after all messages with priority
@@ -91,12 +87,6 @@ public class AppMsg {
      */
     public static final int PRIORITY_HIGH = Integer.MAX_VALUE;
 
-    
-    /**
-     * Show the text notification for a long period of time with a negative style.
-     */
-    public static final Style STYLE_REMAIN = new Style(LENGTH_STAY, R.color.alert);
-    
     /**
      * Show the text notification for a long period of time with a negative style.
      */
@@ -111,12 +101,7 @@ public class AppMsg {
      * Show the text notification for a short period of time with a neutral style.
      */
     public static final Style STYLE_INFO = new Style(LENGTH_SHORT, R.color.info);
-    
- 
-    
-    public static final Style STYLE_LOAD = new Style(LENGTH_SHORT, R.color.info);
 
-    
     private final Activity mActivity;
     private int mDuration = LENGTH_SHORT;
     private View mView;
@@ -148,8 +133,35 @@ public class AppMsg {
         return makeText(context, text, style, R.layout.app_msg);
     }
     
+
     /**
-     * @author mengguoqiang  
+     * Make a {@link AppMsg} that just contains a text view.
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, OnClickListener clickListener) {
+        return makeText(context, text, style, R.layout.app_msg);
+    }
+    
+    /**
+     * @author mengguoqiang
+     * Make a {@link AppMsg} that just contains a text view.
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, float textSize) {
+        return makeText(context, text, style, R.layout.app_msg, textSize);
+    }
+    
+    
+    /**
+     * @author mengguoqiang
      * Make a {@link AppMsg} that just contains a text view.
      *
      * @param context The context to use. Usually your
@@ -169,39 +181,6 @@ public class AppMsg {
      * @param text    The text to show. Can be formatted text.
      * @param style   The style with a background and a duration.
      */
-    public static AppMsg makeText(Activity context, CharSequence text, Style style, int layoutId, OnClickListener clickListener) {
-        LayoutInflater inflate = (LayoutInflater)
-                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflate.inflate(layoutId, null);
-
-        return makeText(context, text, style, v, true, clickListener);
-    }
-    
-    
-    /**
-     * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
-     *
-     * @param context The context to use. Usually your
-     *                {@link android.app.Activity} object.
-     * @param text    The text to show. Can be formatted text.
-     * @param style   The style with a background and a duration.
-     */
-    public static AppMsg makeText(Activity context, CharSequence text, Style style, View v, OnClickListener clickListener) {
-     
-
-        return makeText(context, text, style, v, true, clickListener);
-    }
-    
-    
-    
-    /**
-     * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
-     *
-     * @param context The context to use. Usually your
-     *                {@link android.app.Activity} object.
-     * @param text    The text to show. Can be formatted text.
-     * @param style   The style with a background and a duration.
-     */
     public static AppMsg makeText(Activity context, CharSequence text, Style style, int layoutId) {
         LayoutInflater inflate = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -210,8 +189,27 @@ public class AppMsg {
         return makeText(context, text, style, v, true);
     }
     
+    
     /**
-     * @author mengguoqiang 
+     * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, int layoutId, OnClickListener clickListener) {
+        LayoutInflater inflate = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflate.inflate(layoutId, null);
+
+        return makeText(context, text, style, v, true);
+    }
+    
+    
+    
+    /**
+     * @author mengguoqiang
      * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
      *
      * @param context The context to use. Usually your
@@ -224,8 +222,28 @@ public class AppMsg {
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = inflate.inflate(layoutId, null);
 
-        return makeText(context, text, style, v, true, textSize, null);
+        return makeText(context, text, style, v, true, textSize, clickListener);
     }
+    
+    /**
+     * @author mengguoqiang
+     * Make a {@link AppMsg} with a custom layout. The layout must have a {@link TextView} com id {@link android.R.id.message}
+     *
+     * @param context The context to use. Usually your
+     *                {@link android.app.Activity} object.
+     * @param text    The text to show. Can be formatted text.
+     * @param style   The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, int layoutId, float textSize) {
+        LayoutInflater inflate = (LayoutInflater)
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View v = inflate.inflate(layoutId, null);
+
+        return makeText(context, text, style, v, true, textSize);
+    }
+    
+    
+ 
 
     /**
      * Make a non-floating {@link AppMsg} with a custom view presented inside the layout.
@@ -241,6 +259,24 @@ public class AppMsg {
     public static AppMsg makeText(Activity context, CharSequence text, Style style, View customView) {
        return makeText(context, text, style, customView, false);
     }
+    
+    
+
+    /**
+     * Make a non-floating {@link AppMsg} with a custom view presented inside the layout.
+     * It can be used to create non-floating notifications if floating is false.
+     *
+     * @param context  The context to use. Usually your
+     *                 {@link android.app.Activity} object.
+     * @param customView
+     *                 View to be used.
+     * @param text     The text to show. Can be formatted text.
+     * @param style    The style with a background and a duration.
+     */
+    public static AppMsg makeText(Activity context, CharSequence text, Style style, View customView, OnClickListener clickListener) {
+       return makeText(context, text, style, customView, false, clickListener);
+    }
+
 
     /**
      * Make a {@link AppMsg} with a custom view. It can be used to create non-floating notifications if floating is false.
@@ -254,8 +290,9 @@ public class AppMsg {
      * @param floating true if it'll float.
      */
     private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating) {
-        return makeText(context, text, style, view, floating, 0, null);
+        return makeText(context, text, style, view, floating, 0);
     }
+    
     
     
     /**
@@ -275,7 +312,7 @@ public class AppMsg {
     
     /**
      * 
-     
+     * @author mengguoqiang 
      * Make a {@link AppMsg} with a custom view. It can be used to create non-floating notifications if floating is false.
      *
      * @param context  The context to use. Usually your
@@ -286,7 +323,40 @@ public class AppMsg {
      * @param style    The style with a background and a duration.
      * @param floating true if it'll float.
      */
-    private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating, float textSize, OnClickListener clickListener) {
+    private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating, float textSize) {
+        AppMsg result = new AppMsg(context);
+
+        view.setBackgroundResource(style.background);
+
+        TextView tv = (TextView) view.findViewById(android.R.id.message);
+        if(textSize > 0) tv.setTextSize(textSize);
+        tv.setText(text);
+
+        result.mView = view;
+        result.mDuration = style.duration;
+        result.mFloating = floating;
+
+        return result;
+    }
+    
+    
+    
+    /**
+     * 
+     
+     * Make a {@link AppMsg} with a custom view. It can be used to create non-floating notifications if floating is false.
+     *
+     * @param context  The context to use. Usually your
+     *                 {@link android.app.Activity} object.
+     * @param view
+     *                 View to be used.
+     * @param text     The text to show. Can be formatted text.
+     * @param style    The style with a background and a duration.
+     * @param floating true if it'll float.
+     * @param clickListener Clicklistener
+     */
+    private static AppMsg makeText(Activity context, CharSequence text, Style style, View view, boolean floating, 
+    		float textSize, OnClickListener clickListener) {
         AppMsg result = new AppMsg(context);
 
         view.setBackgroundResource(style.background);
@@ -304,6 +374,11 @@ public class AppMsg {
 
         return result;
     }
+    
+    
+    
+    
+    
 
     /**
      * Make a {@link AppMsg} with a custom view. It can be used to create non-floating notifications if floating is false.
