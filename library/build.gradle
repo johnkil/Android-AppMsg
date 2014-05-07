@@ -1,14 +1,12 @@
 apply plugin: 'android-library'
 
 android {
-    compileSdkVersion androidCompileSdk
-    buildToolsVersion androidToolsVersion
+    compileSdkVersion 19
+    buildToolsVersion "19.0.3"
 
     defaultConfig {
-        versionCode appMsgVersionCode
-        versionName appMsgVersionName
         minSdkVersion 4
-        targetSdkVersion androidCompileSdk
+        targetSdkVersion 19
     }
     sourceSets {
         main {
