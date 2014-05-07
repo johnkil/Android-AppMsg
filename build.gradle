@@ -4,7 +4,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.8.+'
+        classpath 'com.android.tools.build:gradle:0.9.1'
     }
 }
 
@@ -17,7 +17,7 @@ allprojects {
     group = GROUP
 
     androidCompileSdk = 19
-    androidToolsVersion = '19'
+    androidToolsVersion = '19.0.3'
     appMsgVersionCode = 4
     appMsgVersionName = VERSION_NAME
 
