@@ -1,17 +1,14 @@
-apply plugin: 'android'
-
-dependencies {
-    compile project(':library')
-    compile 'com.actionbarsherlock:actionbarsherlock:4.4.0@aar'
-}
+apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.3"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     defaultConfig {
         minSdkVersion 7
-        targetSdkVersion 19
+        targetSdkVersion 21
+        versionCode 5
+        versionName "1.2.0"
     }
 
     sourceSets {
@@ -21,4 +18,9 @@ android {
             res.srcDirs = ['res']
         }
     }
+}
+
+dependencies {
+    compile project(':library')
+    compile 'com.android.support:appcompat-v7:21.0.2'
 }

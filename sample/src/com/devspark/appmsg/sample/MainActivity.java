@@ -19,6 +19,7 @@ package com.devspark.appmsg.sample;
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -26,7 +27,6 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.devspark.appmsg.AppMsg;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -41,11 +41,10 @@ import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
 
 /**
  * Sample of AppMsg library.
- * 
+ *
  * @author Evgeny Shishkin
- * 
  */
-public class MainActivity extends SherlockActivity {
+public class MainActivity extends ActionBarActivity {
     private static final int NORMAL_POSITION = 1;
     private static final int INFO_POSITION = 2;
 
@@ -92,7 +91,7 @@ public class MainActivity extends SherlockActivity {
 
     /**
      * Button onClick listener.
-     * 
+     *
      * @param v
      */
     public void buttonClick(View v) {
@@ -115,8 +114,8 @@ public class MainActivity extends SherlockActivity {
         final CharSequence providedMsg = mProvidedMsg.getText();
         final CharSequence msg = isEmpty(providedMsg)
                 ? new StringBuilder().append(mStyle.getSelectedItem())
-                    .append(" ").append(mPriority.getSelectedItem())
-                    .append(" msg#").append(mMsgCount).toString()
+                .append(" ").append(mPriority.getSelectedItem())
+                .append(" msg#").append(mMsgCount).toString()
                 : providedMsg;
         final AppMsg.Style style;
         boolean customAnimations = false;
