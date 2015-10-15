@@ -19,7 +19,8 @@ package com.devspark.appmsg.sample;
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -44,7 +45,7 @@ import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
  *
  * @author Evgeny Shishkin
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final int NORMAL_POSITION = 1;
     private static final int INFO_POSITION = 2;
 
@@ -60,6 +61,9 @@ public class MainActivity extends ActionBarActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         mProvidedMsg = (EditText) findViewById(R.id.provided_txt);
         mStyle = (Spinner) findViewById(R.id.style_spnr);

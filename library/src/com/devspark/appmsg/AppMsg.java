@@ -19,6 +19,10 @@ package com.devspark.appmsg;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.internal.app.ToolbarActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -336,6 +340,8 @@ public class AppMsg {
         result.mDuration = style.duration;
         result.mFloating = floating;
 
+        result.setLayoutParams(getLayoutParams(context));
+
         return result;
     }
     
@@ -369,6 +375,8 @@ public class AppMsg {
         result.mView = view;
         result.mDuration = style.duration;
         result.mFloating = floating;
+
+        result.setLayoutParams(getLayoutParams(context));
         
         view.setOnClickListener(clickListener);
 
@@ -424,6 +432,31 @@ public class AppMsg {
     public static AppMsg makeText(Activity context, int resId, Style style, int layoutId)
             throws Resources.NotFoundException {
         return makeText(context, context.getResources().getText(resId), style, layoutId);
+    }
+
+    private static FrameLayout.LayoutParams getLayoutParams(Activity context){
+        if (context instanceof AppCompatActivity) {
+            android.support.v7.app.ActionBar supportActionBar = ((AppCompatActivity) context).getSupportActionBar();
+            if (supportActionBar instanceof ToolbarActionBar) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, supportActionBar.getHeight(), 0, 0);
+                return layoutParams;
+            }
+        }
+        // for sdk >= android L
+        // kind of hacky
+        if (Build.VERSION.SDK_INT >= 21) {
+            android.app.ActionBar actionBar = context.getActionBar();
+            if (actionBar != null && actionBar.getClass().getName().equals("com.android.internal.app.ToolbarActionBar")) {
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(
+                        FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(0, actionBar.getHeight(), 0, 0);
+                return layoutParams;
+            }
+            return null;
+        }
+        return null;
     }
 
     /**
