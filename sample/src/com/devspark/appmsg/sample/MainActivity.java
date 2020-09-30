@@ -44,7 +44,9 @@ import static com.devspark.appmsg.AppMsg.LENGTH_STICKY;
  *
  * @author Evgeny Shishkin
  */
+
 public class MainActivity extends ActionBarActivity {
+    
     private static final int NORMAL_POSITION = 1;
     private static final int INFO_POSITION = 2;
 
@@ -94,6 +96,7 @@ public class MainActivity extends ActionBarActivity {
      *
      * @param v
      */
+    
     public void buttonClick(View v) {
         switch (v.getId()) {
             case R.id.show:
@@ -108,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void showAppMsg() {
+        
         mMsgCount++;
         final int styleSelected = mStyle.getSelectedItemPosition();
         final int priority = positionToPriority(mPriority.getSelectedItemPosition());
@@ -117,9 +121,11 @@ public class MainActivity extends ActionBarActivity {
                 .append(" ").append(mPriority.getSelectedItem())
                 .append(" msg#").append(mMsgCount).toString()
                 : providedMsg;
+        
         final AppMsg.Style style;
         boolean customAnimations = false;
         AppMsg provided = null;
+        
         switch (styleSelected) {
             case 0:
                 style = AppMsg.STYLE_ALERT;
@@ -145,6 +151,7 @@ public class MainActivity extends ActionBarActivity {
         // create {@link AppMsg} with specify type
         AppMsg appMsg = provided != null ? provided : AppMsg.makeText(this, msg, style);
         appMsg.setPriority(priority);
+        
         if (mParent.isChecked()) {
             appMsg.setParent(mAltParent);
         } else {
