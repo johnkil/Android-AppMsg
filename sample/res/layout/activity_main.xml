@@ -18,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:textAllCaps="true"
-            android:text="@string/style"
-            />
+            android:text="@string/style" />
+        
         <Spinner
             android:id="@+id/style_spnr"
             android:layout_width="match_parent"
@@ -27,15 +27,15 @@
             android:minHeight="48dp"
             android:spinnerMode="dropdown"
             android:entries="@array/styles"
-            android:prompt="@string/style"
-            />
+            android:prompt="@string/style" />
+        
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:textAllCaps="true"
-            android:text="@string/priority"
-            />
+            android:text="@string/priority" />
+        
         <Spinner
             android:id="@+id/priority_spnr"
             android:layout_width="match_parent"
@@ -43,8 +43,7 @@
             android:minHeight="48dp"
             android:spinnerMode="dropdown"
             android:entries="@array/priorities"
-            android:prompt="@string/priority"
-            />
+            android:prompt="@string/priority" />
 
         <CheckBox
             android:id="@+id/bottom"
@@ -70,8 +69,7 @@
             android:id="@+id/provided_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/your_message_here"
-            />
+            android:hint="@string/your_message_here" />
 
         <Button
             android:id="@+id/show"
